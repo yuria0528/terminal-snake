@@ -33,10 +33,13 @@ public class SnakeGame {
             status = Status.WALL; return;
         }
         boolean growing = next.equals(food);
-        if (snake.contains(next)) { status = Status.SELF; return; }
+        if (!growing && !next.equals(snake.getLast()) && snake.contains(next)) {
+            status = Status.SELF; return;
+        }
+        if (growing && snake.contains(next)) { status = Status.SELF; return; }
         snake.addFirst(next);
+        if (!growing) snake.removeLast();
         if (growing) { score += 10; placeFood(); }
-        else snake.removeLast();
     }
     private void placeFood() {
         List<Cell> free = new ArrayList<>();
